@@ -10,10 +10,12 @@ Clean / techy, near-dark, one restrained accent (signal-green). Space Grotesk (d
 - `prefers-reduced-motion` respected (no scroll animations, counters jump to final value)
 - Semantic landmarks, labelled sections, descriptive link text
 
-## TODO before this is "high quality"
-Search the codebase for `TODO` — each marks a real gap:
+## Links
+GitHub, Podcast (Spotify), and SenseiSuite are wired up live, plus Instagram in the contact section.
 
-- [ ] **Real URLs** — replace `[SENSEISUITE_URL]`, `[PODCAST_URL]`, `[GITHUB_URL]`. Each placeholder link has a `data-todo-url` attribute and an inline `href="#"`. Set the real `href` and delete the `.todo` note span.
+## TODO before this is "high quality"
+
+- [x] **Real URLs** — GitHub, Podcast, SenseiSuite, Instagram are all live.
 - [ ] **Profile photo** — add a face to the hero.
 - [ ] **1–2 visual artifacts** — SenseiSuite screenshot, podcast cover, CAD render, or robot photo.
 - [ ] **Voice sample** — confirm the About copy sounds like Seshank.

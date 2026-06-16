@@ -380,34 +380,28 @@
       <h2 class="section-title" id="work-title">Three things I've shipped and kept alive.</h2>
       <div class="work-grid">
 
-        <!-- TODO: replace [SENSEISUITE_URL] -->
-        <a class="card reveal" href="#" data-todo-url="SENSEISUITE_URL">
+        <a class="card reveal" href="https://senseisuite.com/" target="_blank" rel="noopener">
           <span class="card-meta">2025–present · founder</span>
           <h3>SenseiSuite <span class="arrow" aria-hidden="true">↗</span></h3>
           <p>Web app helping independent karate masters run their dojos — messaging, attendance, belt
              progression. 190+ users, real recurring revenue, scaling to more Austin dojos.</p>
           <div class="card-tags"><span>full-stack</span><span>product</span><span>SaaS</span></div>
-          <span class="todo">TODO: set link → [SENSEISUITE_URL]</span>
         </a>
 
-        <!-- TODO: replace [PODCAST_URL] -->
-        <a class="card reveal" href="#" data-todo-url="PODCAST_URL">
+        <a class="card reveal" href="https://open.spotify.com/show/6bjAsgfVuCOyw3rY975vHz" target="_blank" rel="noopener">
           <span class="card-meta">2024–present · host</span>
           <h3>Business Insights Daily <span class="arrow" aria-hidden="true">↗</span></h3>
           <p>Daily business/tech podcast for high schoolers — 240+ episodes on Spotify, Amazon Music and
              YouTube Music. I run the full pipeline solo: research, scripting, recording, editing, publishing.</p>
           <div class="card-tags"><span>media</span><span>daily cadence</span><span>research</span></div>
-          <span class="todo">TODO: set link → [PODCAST_URL]</span>
         </a>
 
-        <!-- TODO: replace [GITHUB_URL] -->
-        <a class="card reveal" href="#" data-todo-url="GITHUB_URL">
+        <a class="card reveal" href="https://github.com/seshankbagavath" target="_blank" rel="noopener">
           <span class="card-meta">ongoing · GitHub</span>
           <h3>Open-source tools <span class="arrow" aria-hidden="true">↗</span></h3>
           <p>An AI startup–investor matchmaker, a structural-failure prediction tool, and an MVP-creator
              Chrome extension. Small, sharp tools built to solve a specific problem.</p>
           <div class="card-tags"><span>AI</span><span>Python</span><span>tooling</span></div>
-          <span class="todo">TODO: set link → [GITHUB_URL]</span>
         </a>
 
       </div>
@@ -468,10 +462,10 @@
           <a class="email-link" href="mailto:seshank.b001@gmail.com">seshank.b001@gmail.com</a>
         </div>
         <div class="out-links">
-          <!-- TODO: replace placeholder hrefs -->
-          <a href="#" data-todo-url="GITHUB_URL">GitHub ↗</a>
-          <a href="#" data-todo-url="PODCAST_URL">Podcast ↗</a>
-          <a href="#" data-todo-url="SENSEISUITE_URL">SenseiSuite ↗</a>
+          <a href="https://github.com/seshankbagavath" target="_blank" rel="noopener">GitHub ↗</a>
+          <a href="https://open.spotify.com/show/6bjAsgfVuCOyw3rY975vHz" target="_blank" rel="noopener">Podcast ↗</a>
+          <a href="https://senseisuite.com/" target="_blank" rel="noopener">SenseiSuite ↗</a>
+          <a href="https://www.instagram.com/seshankbagavath/" target="_blank" rel="noopener">Instagram ↗</a>
         </div>
       </div>
     </section>
@@ -531,16 +525,6 @@
       revealEls.forEach(el => el.classList.add("in"));
       document.querySelectorAll(".num[data-target]").forEach(countUp);
     }
-
-    // ----- Guard placeholder links: warn in console, prevent dead navigation -----
-    document.querySelectorAll("[data-todo-url]").forEach(a => {
-      a.addEventListener("click", e => {
-        if (a.getAttribute("href") === "#") {
-          e.preventDefault();
-          console.warn("TODO: set real URL for [" + a.dataset.todoUrl + "] in index.html");
-        }
-      });
-    });
   </script>
 </body>
 </html>
