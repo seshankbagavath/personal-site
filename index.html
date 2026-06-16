@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seshank Bagavath — Builder. Ships things and keeps going.</title>
+  <meta name="description" content="Seshank Bagavath — high-school builder. Two-time founder, daily podcast (240+ episodes), a karate-school app with real users and revenue. Depth and follow-through, not a scattered list of activities." />
+
+  <!-- Open Graph / social preview -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Seshank Bagavath — Builder" />
+  <meta property="og:description" content="He starts things and keeps going. Two-time founder, daily podcast, a product with real users and revenue." />
+
+  <!-- Fonts: Space Grotesk (display) + JetBrains Mono (mono) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ---------- Tokens ---------- */
+    :root {
+      --bg:        #0a0c10;
+      --bg-soft:   #11141b;
+      --surface:   #141822;
+      --surface-2: #1b2030;
+      --border:    #242b3a;
+      --text:      #e6e9f0;
+      --text-dim:  #9aa3b2;
+      --text-mute: #6b7280;
+      --accent:    #4ade80;   /* single restrained accent: signal-green */
+      --accent-dim:#2c7a4d;
+      --radius:    14px;
+      --maxw:      1080px;
+      --ease:      cubic-bezier(.22,.61,.36,1);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Space Grotesk", system-ui, -apple-system, sans-serif;
+      font-size: 17px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    /* subtle techy backdrop */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(900px 500px at 80% -5%, rgba(74,222,128,.06), transparent 60%),
+        radial-gradient(700px 600px at 0% 10%, rgba(74,222,128,.035), transparent 55%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+    a { color: inherit; }
+    .mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
+
+    /* ---------- Accessibility ---------- */
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+    .skip-link {
+      position: absolute; left: -999px; top: 0;
+      background: var(--accent); color: #04130a;
+      padding: 10px 16px; border-radius: 0 0 8px 0; z-index: 100;
+      font-weight: 600; text-decoration: none;
+    }
+    .skip-link:focus { left: 0; }
+
+    /* ---------- Header ---------- */
+    header {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(10,12,16,.72);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav {
+      display: flex; align-items: center; gap: 20px;
+      height: 64px;
+    }
+    .brand { display: flex; align-items: baseline; gap: 10px; margin-right: auto; min-width: 0; }
+    .brand .name { font-weight: 700; letter-spacing: -.01em; white-space: nowrap; }
+    .brand .tag { color: var(--text-mute); font-size: 13px; white-space: nowrap; }
+    .nav-links { display: flex; gap: 22px; }
+    .nav-links a {
+      color: var(--text-dim); text-decoration: none; font-size: 14px;
+      transition: color .2s var(--ease);
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    .status {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: "JetBrains Mono", monospace; font-size: 12px;
+      color: var(--accent); white-space: nowrap;
+      padding: 5px 11px; border: 1px solid var(--accent-dim);
+      border-radius: 999px; background: rgba(74,222,128,.06);
+    }
+    .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent); box-shadow: 0 0 0 0 rgba(74,222,128,.6);
+      animation: pulse 2.4s var(--ease) infinite;
+    }
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(74,222,128,.55); }
+      70%  { box-shadow: 0 0 0 9px rgba(74,222,128,0); }
+      100% { box-shadow: 0 0 0 0 rgba(74,222,128,0); }
+    }
+    @media (prefers-reduced-motion: reduce) { .dot { animation: none; } }
+
+    @media (max-width: 720px) {
+      .nav-links { display: none; }
+      .brand .tag { display: none; }
+    }
+
+    /* ---------- Sections ---------- */
+    section { padding: 88px 0; position: relative; }
+    .eyebrow {
+      font-family: "JetBrains Mono", monospace; font-size: 12px;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--accent); margin: 0 0 16px;
+    }
+    h2.section-title {
+      font-size: clamp(26px, 4vw, 38px); font-weight: 600;
+      letter-spacing: -.02em; margin: 0 0 36px; line-height: 1.15;
+    }
+
+    /* ---------- Hero ---------- */
+    .hero { padding-top: 96px; padding-bottom: 72px; }
+    .hero .meta-tags { margin-bottom: 26px; }
+    .hero h1 {
+      font-size: clamp(38px, 7vw, 76px);
+      font-weight: 700; letter-spacing: -.03em; line-height: 1.04;
+      margin: 0 0 24px; max-width: 16ch;
+    }
+    .hero h1 .accent { color: var(--accent); }
+    .hero .pitch {
+      font-size: clamp(17px, 2.4vw, 21px); color: var(--text-dim);
+      max-width: 56ch; margin: 0 0 32px;
+    }
+    .meta-tags { display: flex; flex-wrap: wrap; gap: 9px; }
+    .pill {
+      font-family: "JetBrains Mono", monospace; font-size: 12.5px;
+      color: var(--text-dim); padding: 5px 12px;
+      border: 1px solid var(--border); border-radius: 999px;
+      background: var(--surface);
+    }
+    .hero-cta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 8px; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 9px;
+      font-family: "Space Grotesk", sans-serif; font-size: 15px; font-weight: 600;
+      padding: 12px 22px; border-radius: 10px; text-decoration: none;
+      border: 1px solid transparent; cursor: pointer;
+      transition: transform .18s var(--ease), background .2s var(--ease), border-color .2s var(--ease);
+    }
+    .btn-primary { background: var(--accent); color: #04130a; }
+    .btn-primary:hover { transform: translateY(-2px); }
+    .btn-ghost { border-color: var(--border); color: var(--text); background: var(--surface); }
+    .btn-ghost:hover { border-color: var(--accent-dim); transform: translateY(-2px); }
+    @media (prefers-reduced-motion: reduce) { .btn:hover { transform: none; } }
+
+    /* ---------- Counters ---------- */
+    .counters {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px;
+    }
+    .tile {
+      background: linear-gradient(180deg, var(--surface), var(--bg-soft));
+      border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 28px 24px; position: relative; overflow: hidden;
+    }
+    .tile::after {
+      content: ""; position: absolute; left: 0; top: 0; height: 3px; width: 100%;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      opacity: .8;
+    }
+    .tile .num {
+      font-family: "Space Grotesk", sans-serif; font-weight: 700;
+      font-size: clamp(34px, 5vw, 52px); letter-spacing: -.03em;
+      line-height: 1; color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+    .tile .num .plus { color: var(--accent); }
+    .tile .label { color: var(--text-dim); font-size: 14px; margin-top: 12px; }
+    @media (max-width: 860px) { .counters { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 440px) { .counters { grid-template-columns: 1fr; } }
+
+    /* ---------- About ---------- */
+    .about-grid { max-width: 64ch; }
+    .about-grid p { color: var(--text-dim); margin: 0 0 20px; font-size: 18px; }
+    .about-grid p strong { color: var(--text); font-weight: 600; }
+
+    /* ---------- Work ---------- */
+    .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .card {
+      display: flex; flex-direction: column;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 26px;
+      text-decoration: none; color: inherit;
+      transition: transform .2s var(--ease), border-color .2s var(--ease), background .2s var(--ease);
+    }
+    .card:hover { transform: translateY(-4px); border-color: var(--accent-dim); background: var(--surface-2); }
+    @media (prefers-reduced-motion: reduce) { .card:hover { transform: none; } }
+    .card .card-meta { font-family: "JetBrains Mono", monospace; font-size: 12px; color: var(--text-mute); margin-bottom: 12px; }
+    .card h3 {
+      font-size: 21px; font-weight: 600; margin: 0 0 12px; letter-spacing: -.01em;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .card h3 .arrow { color: var(--accent); transition: transform .2s var(--ease); }
+    .card:hover h3 .arrow { transform: translate(3px,-3px); }
+    .card p { color: var(--text-dim); font-size: 15px; margin: 0 0 18px; flex: 1; }
+    .card-tags { display: flex; flex-wrap: wrap; gap: 7px; }
+    .card-tags span {
+      font-family: "JetBrains Mono", monospace; font-size: 11.5px; color: var(--accent);
+      padding: 3px 9px; border: 1px solid var(--accent-dim); border-radius: 999px;
+      background: rgba(74,222,128,.05);
+    }
+    .todo {
+      font-family: "JetBrains Mono", monospace; font-size: 11px;
+      color: #f0b34a; margin-top: 14px; display: block;
+    }
+    @media (max-width: 860px) { .work-grid { grid-template-columns: 1fr; } }
+
+    /* ---------- Track record ---------- */
+    .record-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 40px; }
+    .record-block h3 {
+      font-size: 14px; font-family: "JetBrains Mono", monospace;
+      text-transform: uppercase; letter-spacing: .1em; color: var(--accent);
+      margin: 0 0 14px; font-weight: 500;
+    }
+    .record-block ul { list-style: none; margin: 0 0 8px; padding: 0; }
+    .record-block li {
+      color: var(--text-dim); font-size: 15px; padding: 7px 0 7px 20px;
+      position: relative; border-bottom: 1px solid var(--border);
+    }
+    .record-block li:last-child { border-bottom: 0; }
+    .record-block li::before {
+      content: "▹"; color: var(--accent); position: absolute; left: 0; top: 7px;
+    }
+    @media (max-width: 720px) { .record-grid { grid-template-columns: 1fr; } }
+
+    /* ---------- Contact ---------- */
+    .contact-card {
+      background: linear-gradient(180deg, var(--surface), var(--bg-soft));
+      border: 1px solid var(--border); border-radius: 20px;
+      padding: clamp(28px, 5vw, 52px); text-align: center;
+    }
+    .contact-card h2 { font-size: clamp(28px, 5vw, 44px); font-weight: 700; letter-spacing: -.02em; margin: 0 0 14px; }
+    .contact-card p { color: var(--text-dim); max-width: 48ch; margin: 0 auto 28px; }
+    .contact-links { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; align-items: center; }
+    .email-link {
+      font-family: "JetBrains Mono", monospace; color: var(--accent);
+      text-decoration: none; font-size: 15px;
+    }
+    .email-link:hover { text-decoration: underline; }
+    .out-links { display: flex; gap: 18px; flex-wrap: wrap; justify-content: center; margin-top: 22px; }
+    .out-links a { color: var(--text-dim); text-decoration: none; font-size: 14px; font-family: "JetBrains Mono", monospace; }
+    .out-links a:hover { color: var(--text); }
+
+    /* ---------- Footer ---------- */
+    footer {
+      border-top: 1px solid var(--border); padding: 36px 0;
+      color: var(--text-mute); font-size: 13px;
+    }
+    .footer-row { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: center; }
+    .footer-row .mono { font-size: 12px; }
+
+    /* ---------- Scroll reveal ---------- */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+    .reveal.in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+    }
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ===== Header ===== -->
+  <header>
+    <div class="wrap nav">
+      <div class="brand">
+        <span class="name">Seshank Bagavath</span>
+        <span class="tag mono">// builder · ships &amp; sustains</span>
+      </div>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#work">Work</a>
+        <a href="#record">Track record</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <span class="status" aria-label="Current status: still building">
+        <span class="dot" aria-hidden="true"></span> still building
+      </span>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ===== Hero ===== -->
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <h1 id="hero-title">He starts things <span class="accent">and keeps going.</span></h1>
+      <p class="pitch">
+        High-school builder from Leander, TX. I pick a few hard, long games and go deep —
+        a daily podcast running for years, a product with real users and revenue, a four-year
+        service project. Depth and follow-through, not a scattered list of activities.
+      </p>
+      <div class="meta-tags" aria-label="Highlights">
+        <span class="pill">Two-time founder · in high school</span>
+        <span class="pill">Real users &amp; revenue</span>
+        <span class="pill">Multi-year daily streak</span>
+        <span class="pill">International competitor</span>
+      </div>
+      <div class="hero-cta" style="margin-top:30px;">
+        <a class="btn btn-primary" href="#contact">Let's build something <span aria-hidden="true">→</span></a>
+        <a class="btn btn-ghost" href="#work">See the work</a>
+      </div>
+    </section>
+
+    <!-- ===== Counters ===== -->
+    <section class="wrap" aria-labelledby="counters-title" id="counters">
+      <p class="eyebrow">Always shipping</p>
+      <h2 class="section-title" id="counters-title">The numbers do the arguing.</h2>
+      <div class="counters">
+        <div class="tile reveal">
+          <div class="num" data-target="240" data-suffix="+">0<span class="plus" aria-hidden="true"></span></div>
+          <div class="label">Podcast episodes published</div>
+        </div>
+        <div class="tile reveal">
+          <div class="num" data-target="190" data-suffix="+">0</div>
+          <div class="label">SenseiSuite users</div>
+        </div>
+        <div class="tile reveal">
+          <div class="num" data-target="5000" data-suffix="+">0</div>
+          <div class="label">Books shipped to Nigeria</div>
+        </div>
+        <div class="tile reveal">
+          <div class="num" data-target="290" data-suffix="+">0</div>
+          <div class="label">Volunteer hours</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== About ===== -->
+    <section class="wrap reveal" id="about" aria-labelledby="about-title">
+      <p class="eyebrow">About</p>
+      <h2 class="section-title" id="about-title">Most teenage projects die by month three.</h2>
+      <div class="about-grid">
+        <p>
+          Most teenage projects die by month three. <strong>Mine stick.</strong> I'm drawn to long games —
+          the kind of work that only gets interesting after you've shown up for it a few hundred times in a row.
+          Starting is easy; I'm more interested in what survives the part where it stops being fun.
+        </p>
+        <p>
+          In practice that looks like a daily podcast I've run for years, a karate-school app that real
+          instructors actually use, and a four-year book drive. I like building software, figuring out how
+          businesses actually work, and turning both into things people use. <strong>If I start it, I plan to be
+          doing it years from now.</strong>
+        </p>
+      </div>
+    </section>
+
+    <!-- ===== Work ===== -->
+    <section class="wrap" id="work" aria-labelledby="work-title">
+      <p class="eyebrow">Work</p>
+      <h2 class="section-title" id="work-title">Three things I've shipped and kept alive.</h2>
+      <div class="work-grid">
+
+        <!-- TODO: replace [SENSEISUITE_URL] -->
+        <a class="card reveal" href="#" data-todo-url="SENSEISUITE_URL">
+          <span class="card-meta">2025–present · founder</span>
+          <h3>SenseiSuite <span class="arrow" aria-hidden="true">↗</span></h3>
+          <p>Web app helping independent karate masters run their dojos — messaging, attendance, belt
+             progression. 190+ users, real recurring revenue, scaling to more Austin dojos.</p>
+          <div class="card-tags"><span>full-stack</span><span>product</span><span>SaaS</span></div>
+          <span class="todo">TODO: set link → [SENSEISUITE_URL]</span>
+        </a>
+
+        <!-- TODO: replace [PODCAST_URL] -->
+        <a class="card reveal" href="#" data-todo-url="PODCAST_URL">
+          <span class="card-meta">2024–present · host</span>
+          <h3>Business Insights Daily <span class="arrow" aria-hidden="true">↗</span></h3>
+          <p>Daily business/tech podcast for high schoolers — 240+ episodes on Spotify, Amazon Music and
+             YouTube Music. I run the full pipeline solo: research, scripting, recording, editing, publishing.</p>
+          <div class="card-tags"><span>media</span><span>daily cadence</span><span>research</span></div>
+          <span class="todo">TODO: set link → [PODCAST_URL]</span>
+        </a>
+
+        <!-- TODO: replace [GITHUB_URL] -->
+        <a class="card reveal" href="#" data-todo-url="GITHUB_URL">
+          <span class="card-meta">ongoing · GitHub</span>
+          <h3>Open-source tools <span class="arrow" aria-hidden="true">↗</span></h3>
+          <p>An AI startup–investor matchmaker, a structural-failure prediction tool, and an MVP-creator
+             Chrome extension. Small, sharp tools built to solve a specific problem.</p>
+          <div class="card-tags"><span>AI</span><span>Python</span><span>tooling</span></div>
+          <span class="todo">TODO: set link → [GITHUB_URL]</span>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ===== Track record ===== -->
+    <section class="wrap reveal" id="record" aria-labelledby="record-title">
+      <p class="eyebrow">Track record</p>
+      <h2 class="section-title" id="record-title">The longer list.</h2>
+      <div class="record-grid">
+        <div class="record-block">
+          <h3>Engineering &amp; competition</h3>
+          <ul>
+            <li>CAD Co-Lead, FTC Robotics — Team Arturus 11918</li>
+            <li>RECF top-20 worldwide (16th of 143 at internationals)</li>
+            <li>1st regional · 2nd Texas state</li>
+            <li>4 years Engineering Pathway</li>
+          </ul>
+        </div>
+        <div class="record-block">
+          <h3>Service &amp; leadership</h3>
+          <ul>
+            <li>Presidential Volunteer Service Award (Bronze)</li>
+            <li>African Library Project — 5,000+ books to Nigeria</li>
+            <li>Junior karate instructor · brown belt · 6 yrs</li>
+            <li>Austin Public Library lead volunteer</li>
+          </ul>
+        </div>
+        <div class="record-block">
+          <h3>Selected programs</h3>
+          <ul>
+            <li>MIT Beaver Works — microelectronics &amp; hardware</li>
+            <li>Rice Precollege — management studies</li>
+            <li>UT Dallas — ML research in business analytics</li>
+          </ul>
+        </div>
+        <div class="record-block">
+          <h3>Toolbox</h3>
+          <ul>
+            <li>Autodesk Inventor · Onshape</li>
+            <li>AI-assisted MVP development</li>
+            <li>Web dev · testing · deployment</li>
+            <li>Business research &amp; analysis</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Contact ===== -->
+    <section class="wrap" id="contact" aria-labelledby="contact-title">
+      <div class="contact-card reveal">
+        <p class="eyebrow" style="justify-content:center;">Contact</p>
+        <h2 id="contact-title">Let's build something.</h2>
+        <p>If you're a program director, mentor, collaborator, or fellow builder — the fastest way to
+           reach me is email. Tell me what you're working on.</p>
+        <div class="contact-links">
+          <a class="btn btn-primary" href="mailto:seshank.b001@gmail.com">Email me <span aria-hidden="true">→</span></a>
+          <a class="email-link" href="mailto:seshank.b001@gmail.com">seshank.b001@gmail.com</a>
+        </div>
+        <div class="out-links">
+          <!-- TODO: replace placeholder hrefs -->
+          <a href="#" data-todo-url="GITHUB_URL">GitHub ↗</a>
+          <a href="#" data-todo-url="PODCAST_URL">Podcast ↗</a>
+          <a href="#" data-todo-url="SENSEISUITE_URL">SenseiSuite ↗</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer>
+    <div class="wrap footer-row">
+      <span>© <span id="year"></span> Seshank Bagavath · Leander, TX</span>
+      <span class="mono">still building / always shipping</span>
+    </div>
+  </footer>
+
+  <script>
+    // current year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // ----- Count-up stat tiles (signature element) -----
+    function formatNum(n) { return n.toLocaleString("en-US"); }
+
+    function countUp(el) {
+      const target = parseInt(el.dataset.target, 10);
+      const suffix = el.dataset.suffix || "";
+      if (reduceMotion) {
+        el.textContent = formatNum(target) + suffix;
+        return;
+      }
+      const duration = 1600;
+      const start = performance.now();
+      function tick(now) {
+        const p = Math.min((now - start) / duration, 1);
+        // easeOutExpo
+        const eased = p === 1 ? 1 : 1 - Math.pow(2, -10 * p);
+        const val = Math.round(target * eased);
+        el.textContent = formatNum(val) + suffix;
+        if (p < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    // ----- Scroll reveal + trigger counters -----
+    const revealEls = document.querySelectorAll(".reveal");
+    if ("IntersectionObserver" in window && !reduceMotion) {
+      const io = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("in");
+          entry.target.querySelectorAll?.(".num[data-target]").forEach(countUp);
+          obs.unobserve(entry.target);
+        });
+      }, { threshold: 0.25 });
+      revealEls.forEach(el => io.observe(el));
+    } else {
+      // reduced motion or no IO: show everything, set final numbers
+      revealEls.forEach(el => el.classList.add("in"));
+      document.querySelectorAll(".num[data-target]").forEach(countUp);
+    }
+
+    // ----- Guard placeholder links: warn in console, prevent dead navigation -----
+    document.querySelectorAll("[data-todo-url]").forEach(a => {
+      a.addEventListener("click", e => {
+        if (a.getAttribute("href") === "#") {
+          e.preventDefault();
+          console.warn("TODO: set real URL for [" + a.dataset.todoUrl + "] in index.html");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
