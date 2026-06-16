@@ -3,7 +3,7 @@
 A single-page, single-file personal-marketing site. Plain semantic HTML + CSS + a little vanilla JS — no build step, no framework. Open `index.html` directly in a browser.
 
 ## Design
-Clean / techy, near-dark, one restrained accent (signal-green). Space Grotesk (display) + JetBrains Mono (mono). Signature element: a live "still building" status indicator and count-up stat tiles that animate on scroll.
+Clean / techy, light blue-and-white, one restrained accent (signal-blue). Space Grotesk (display) + JetBrains Mono (mono). Signature element: a live "still building" status indicator and count-up stat tiles that animate on scroll.
 
 ## Accessibility
 - Visible keyboard focus + skip-to-content link
