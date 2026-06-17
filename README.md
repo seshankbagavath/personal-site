@@ -17,7 +17,7 @@ A fast, single-page personal-marketing site for **Seshank Bagavath** — high-sc
 
 ## Design
 
-Clean / techy, light **blue-and-white** with one restrained accent (signal-blue, `#2563eb`). Display type in **Space Grotesk**, mono details in **JetBrains Mono**. All accent tints route through a single `--accent-rgb` CSS token, so the whole palette can be re-tuned from one line in `:root`.
+Clean, light, and warm — **white-to-beige surfaces with a single forest-green accent** (`#3a7d5c`) used sparingly for CTAs, active state, and key emphasis. Generous whitespace, soft rounded cards, thin line icons. Display type in **Fraunces**, UI in **Inter**, mono details in **JetBrains Mono**. All tokens live in `:root` for easy re-tuning.
 
 ## Page structure
 
